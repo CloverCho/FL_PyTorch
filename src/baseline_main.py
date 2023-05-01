@@ -17,9 +17,10 @@ from models import MLP, CNNMnist, CNNFashion_Mnist, CNNCifar
 
 if __name__ == '__main__':
     args = args_parser()
-    if args.gpu:
-        torch.cuda.set_device(args.gpu)
-    device = 'cuda' if args.gpu else 'cpu'
+    # if args.gpu:
+    #     torch.cuda.set_device(args.gpu)
+    # device = 'cuda' if args.gpu else 'cpu'
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
     # load datasets
     train_dataset, test_dataset, _ = get_dataset(args)
@@ -59,7 +60,8 @@ if __name__ == '__main__':
                                      weight_decay=1e-4)
 
     trainloader = DataLoader(train_dataset, batch_size=64, shuffle=True)
-    criterion = torch.nn.NLLLoss().to(device)
+    #criterion = torch.nn.NLLLoss().to(device)
+    criterion = nn.CrossEntropyLoss().to(self.device)
     epoch_loss = []
 
     for epoch in tqdm(range(args.epochs)):
